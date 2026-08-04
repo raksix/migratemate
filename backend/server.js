@@ -1,21 +1,8 @@
-import express from 'express';
-import cors from 'cors';
 import 'dotenv/config';
+import { createApp } from './src/app.js';
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const port = Number(process.env.PORT) || 4000;
 
-const PORT = process.env.PORT || 4000;
-
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'api', time: new Date().toISOString() });
-});
-
-app.get('/api/data', (_req, res) => {
-  res.json({ message: 'Hello from the default scaffold', items: [] });
-});
-
-app.listen(PORT, () => {
-  console.log(`API listening on http://localhost:${PORT}`);
+createApp().listen(port, () => {
+  console.log(`API listening on http://localhost:${port}`);
 });

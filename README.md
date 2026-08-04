@@ -53,3 +53,40 @@ npm run dev        # http://localhost:5173
 ---
 
 *Generated as part of the 100-SaaS archive.*
+
+
+---
+
+## API Dokümantasyonu / API Reference
+
+`/api/migration-plans` kaynağı üzerinde tam CRUD:
+
+| Method | Endpoint | Açıklama |
+|--------|----------|----------|
+| GET | `/api/health` | Sağlık kontrolü |
+| GET | `/api/migration-plans` | Tüm kayıtları listeler |
+| GET | `/api/migration-plans/:id` | Tek kayıt |
+| POST | `/api/migration-plans` | Yeni kayıt (`title` zorunlu) |
+| PUT | `/api/migration-plans/:id` | Güncelle |
+| DELETE | `/api/migration-plans/:id` | Sil |
+
+Örnek:
+
+```bash
+curl -X POST http://localhost:4000/api/migration-plans \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Örnek", "detail": "açıklama"}'
+```
+
+## Testler
+
+```bash
+cd backend && npm test
+```
+
+## Docker ile Çalıştırma
+
+```bash
+docker compose up --build
+# API: http://localhost:4000  Web: http://localhost:3000
+```
