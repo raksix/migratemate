@@ -90,3 +90,48 @@ cd backend && npm test
 docker compose up --build
 # API: http://localhost:4000  Web: http://localhost:3000
 ```
+
+
+---
+
+## Kimlik Doğrulama / Authentication
+
+Tüm `/api/migration-plans` uç noktaları bir token gerektirir:
+
+```bash
+# Kayıt
+curl -X POST http://localhost:4000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"secret123"}'
+
+# Giriş
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"secret123"}'
+# -> {"token":"..."}
+
+# Korunan uç noktalara token ile erişim
+curl http://localhost:4000/api/migration-plans \
+  -H "Authorization: Bearer <token>"
+```
+
+## Sorgu Parametreleri / Query Parameters
+
+`GET /api/migration-plans` şunları destekler:
+
+| Param | Açıklama | Varsayılan |
+|-------|----------|------------|
+| `q` | `title`/`detail` içinde arama | boş |
+| `page` | Sayfa numarası | 1 |
+| `limit` | Sayfa başına kayıt (≤100) | 20 |
+| `sort` | `asc` veya `desc` | desc |
+
+```bash
+curl "http://localhost:4000/api/migration-plans?q=ara&page=1&limit=10&sort=desc" \
+  -H "Authorization: Bearer <token>"
+```
+
+## Veritabanı / Database
+
+Veriler SQLite (`node:sqlite`, sıfır bağımlılık) içinde `backend/data/app.db` dosyasında saklanır.
+Kullanıcılar (`users`) ve kayıtlar (`items`) tabloları otomatik oluşturulur.
